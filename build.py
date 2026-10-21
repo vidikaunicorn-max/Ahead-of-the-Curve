@@ -64,10 +64,9 @@ page("about.html","About","about.html",about)
 contact=f'''
 <section class="hero"><div class="eyebrow">Contact</div><h1>Get in touch</h1><p class="lede">Feedback on the model, requests for new tracer populations, or collaboration ideas are all welcome.</p></section>
 <div class="card prose"><h3>Vidika Mirpuri</h3><p>Founder, Ahead of the Curve<br>Grade 12 IB student, The Cathedral and John Connon School</p>
-<p><strong>Email:</strong> <a href="mailto:{EMAIL}">{EMAIL}</a></p>
-<p><strong>Source code:</strong> <a href="https://github.com/vidikaunicorn-max/ahead-of-the-curve">github.com/vidikaunicorn-max/ahead-of-the-curve</a></p></div>
+<p><strong>Email:</strong> <a href="mailto:{EMAIL}">{EMAIL}</a></p></div>
 {BASED}
-<h2>Citing</h2><div class="card prose"><p>Mirpuri, V. (2026). <em>Local mass density from Hipparcos K giants: a vertical Jeans–Poisson analysis with a mixture of isothermal components.</em> Ahead of the Curve forecaster: github.com/vidikaunicorn-max/ahead-of-the-curve.</p></div>'''
+<h2>Citing</h2><div class="card prose"><p>Mirpuri, V. (2026). <em>Local mass density from Hipparcos K giants: a vertical Jeans–Poisson analysis with a mixture of isothermal components.</em></p></div>'''
 page("contact.html","Contact","contact.html",contact)
 
 cal=json.load(open("forecast/calibration2.json"))
