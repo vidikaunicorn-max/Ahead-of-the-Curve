@@ -1,5 +1,6 @@
 import json,numpy as np
 rows=[json.loads(l) for l in open('/home/claude/paper2/fc_grid2.jsonl')]
+for r in json.load(open('forecast/mock_grid.json')): rows.append(dict(N=r['N'],rv=r['rv_actual'],sig_plx=0.0,dv=0.0,med=r['med'],sig=r['sig'],tag='grid1'))
 T=0.063
 N=np.array([r['N'] for r in rows],float); rv=np.array([r['rv'] for r in rows]); sp=np.array([r['sig_plx'] for r in rows]); dv=np.array([r['dv'] for r in rows])
 med=np.array([r['med'] for r in rows]); sg=np.array([r['sig'] for r in rows])

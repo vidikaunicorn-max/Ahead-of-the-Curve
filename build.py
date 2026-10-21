@@ -70,34 +70,39 @@ contact=f'''
 <h2>Citing</h2><div class="card prose"><p>Mirpuri, V. (2026). <em>Local mass density from Hipparcos K giants: a vertical Jeans–Poisson analysis with a mixture of isothermal components.</em> Ahead of the Curve forecaster: github.com/vidikaunicorn-max/ahead-of-the-curve.</p></div>'''
 page("contact.html","Contact","contact.html",contact)
 
-import json,os
-cal=json.load(open("forecast/calibration.json")) if os.path.exists("forecast/calibration.json") else None
-if cal:
-    open("assets/calibration.js","w").write("window.CAL="+json.dumps(cal)+";")
-    V=cal["validation"]
-    method=f'''
-<section class="hero"><div class="eyebrow">Method</div><h1>How the forecast works</h1><p class="lede">A compact, calibrated model of the error budget in the underlying paper. Every number on the forecaster page comes from the relations below.</p></section>
+cal=json.load(open("forecast/calibration2.json"))
+open("assets/calibration2.js","w").write("window.CAL2="+json.dumps(cal)+";")
+sc=cal["stat"]["coef"]
+method=f"""
+<section class="hero"><div class="eyebrow">Method</div><h1>How the forecast is built</h1><p class="lede">A forecaster fitted to {cal["nfits"]} full MCMC analyses of simulated catalogues, scaled to the paper’s published errors at its own configuration.</p></section>
 <div class="prose">
 <h2 style="margin-top:0">1. The analysis being forecast</h2>
 <p>The paper fits the vertical distribution and kinematics of Hipparcos K giants with the Jeans–Poisson equations. Total density follows ρ(z) = ρ<sub>0</sub> sech²(z/z<sub>ρ</sub>), with stellar velocities described by a mixture of two isothermal components. Selection effects are handled with a Poisson point-process likelihood using the Hipparcos completeness law V ≤ 7.3 + 1.1 sin|b|, and missing radial velocities are marginalised exactly. Posteriors are sampled with an ensemble MCMC (emcee).</p>
-<h2>2. Statistical error</h2>
-<p>Mock catalogues were drawn from the best-fitting model, with the paper’s selection function, and refitted with the full pipeline on a grid of sample sizes and radial-velocity fractions. The resulting posterior widths were fitted with</p>
-<div class="eq">σ<sub>stat</sub>(N, f<sub>RV</sub>) = σ<sub>0</sub> (N / {cal["N0"]})<sup>−α</sup> (f<sub>RV</sub> / {cal["rv0"]})<sup>−β</sup></div>
-<p>with σ<sub>0</sub> = {cal["s0"]:.4f}, α = {cal["alpha"]:.2f}, β = {cal["beta"]:.2f}. The scaling of α with N is not forced to ½, because the dominant degeneracy (ρ<sub>0</sub> against the scale height) is not purely Poisson.</p>
-<h2>3. Completeness systematic</h2>
-<p>The paper shifted the limiting magnitude by ΔV and refitted. ρ<sub>0</sub> responds roughly linearly, with slope ≈ −{abs(cal["slope"]):.3f} M<sub>☉</sub> pc<sup>−3</sup> per magnitude, which is nearly independent of N. The systematic error is therefore</p>
-<div class="eq">σ<sub>sys</sub> = |dρ<sub>0</sub>/dΔV| · σ<sub>ΔV</sub></div>
-<p>and the total is σ<sub>tot</sub> = √(σ<sub>stat</sub>² + σ<sub>sys</sub>²). Increasing N lowers only the first term, which is why a crossover sample size N* exists.</p>
-<h2>4. Validation</h2>
-<table><tr><th>Quantity</th><th>Paper</th><th>Forecaster</th></tr>
-<tr><td>Statistical, N = 3,585, 59% RV</td><td>0.016</td><td>{V["stat"]:.3f}</td></tr>
-<tr><td>Completeness sys., σ<sub>ΔV</sub> = 0.3 mag</td><td>0.017</td><td>{V["sys"]:.3f}</td></tr></table>
-<p>{cal["validation_note"]}</p>
-<h2>5. Limits of validity</h2>
-<ul><li>Only the paper’s setup is modelled: K giants, vertical Jeans equilibrium, a two-component mixture, Hipparcos-like completeness.</li>
-<li>Equilibrium is assumed, not tested. Departures from it (e.g. the vertical phase-space spiral) are not in the error budget.</li>
-<li>Parallax errors: mock tests showed no bias at 0.8 mas and about +20% in ρ<sub>0</sub> at 1.5 mas; larger values were not tested.</li>
-<li>Forecasts are fitted scaling relations with their own scatter ({cal["scatter_note"]}), not new measurements. The tool is novel as a planning aid, not as a new dynamical method.</li></ul>
+<h2>2. Simulated catalogues</h2>
+<p>Catalogues were drawn from the best-fitting model with the paper’s selection function, including Gaussian parallax errors applied before the distance selection, a shifted assumed completeness limit, and a variable fraction of stars with radial velocities. Each was analysed with the full pipeline. The {cal["nfits"]} runs follow a space-filling (Sobol) design over four inputs, plus {8} repeats at the paper’s configuration:</p>
+<table><tr><th>Input</th><th>Simulated range</th></tr>
+<tr><td>Stars in sample</td><td>{cal["domain"]["N"][0]:,} to {cal["domain"]["N"][1]:,}</td></tr>
+<tr><td>Fraction with radial velocity</td><td>{int(cal["domain"]["rv"][0]*100)}% to {int(cal["domain"]["rv"][1]*100)}% requested</td></tr>
+<tr><td>Parallax error σ<sub>ϖ</sub></td><td>{cal["domain"]["plx"][0]} to {cal["domain"]["plx"][1]} mas</td></tr>
+<tr><td>Assumed limiting-magnitude shift ΔV</td><td>{cal["domain"]["dv"][0]} to +{cal["domain"]["dv"][1]} mag</td></tr></table>
+<h2>3. Statistical error</h2>
+<p>The posterior width σ(ρ<sub>0</sub>) was fitted with a log-linear model in the number of stars N, the radial-velocity fraction f<sub>RV</sub> and the parallax error σ<sub>ϖ</sub>:</p>
+<div class="eq">ln σ<sub>stat</sub> = {sc[0]:.2f} {sc[1]:+.2f} ln(N/3585) {sc[2]:+.2f} ln(f<sub>RV</sub>/0.6) {sc[3]:+.2f} σ<sub>ϖ</sub> {sc[4]:+.2f} σ<sub>ϖ</sub>² {sc[5]:+.2f} ΔV²</div>
+<p>The N exponent is close to the Poisson ½. The fitted surface reproduces the simulated widths with {cal["stat"]["resid"]*100:.0f}% rms scatter, shown as the shaded band on the forecaster.</p>
+<h2>4. Completeness systematic</h2>
+<p>An error σ<sub>ΔV</sub> on the limiting magnitude moves ρ<sub>0</sub> by (dρ<sub>0</sub>/dΔV) σ<sub>ΔV</sub>. The slope is measured from the simulations as a function of parallax error and is nearly independent of N, so the systematic sets a floor that more stars cannot lower.</p>
+<h2>5. Parallax offset</h2>
+<p>Parallax errors scatter stars across the distance limit, and distances computed from noisy parallaxes shift the recovered ρ<sub>0</sub>. The forecaster reports this offset relative to the paper’s 0.8 mas and, unless corrected, adds it in quadrature to the total.</p>
+<h2>6. Total error</h2>
+<div class="eq">σ<sub>tot</sub> = √(σ<sub>stat</sub>² + σ<sub>sys</sub>² + σ<sub>plx</sub>²)</div>
+<p>N* is the sample size at which σ<sub>stat</sub> equals the combined floor. Sample sizes for a target precision come from solving σ<sub>tot</sub> = target.</p>
+<h2>7. Scaling to the paper</h2>
+<p>The statistical and completeness terms are scaled so that the forecaster returns the paper’s published ±{cal["paper"]["stat"]:.3f} (statistical) and ±{cal["paper"]["sys"]:.3f} (completeness, σ<sub>ΔV</sub> = 0.3 mag) at the paper’s configuration: 3,585 stars, 59% with radial velocities, σ<sub>ϖ</sub> = 0.8 mas. Away from that point the dependence on each input comes from the simulations.</p>
+<h2>8. Scope</h2>
+<ul><li>The forecast applies to this analysis: K giants, vertical Jeans equilibrium, a two-component mixture, Hipparcos-like completeness. It is not a forecast for other tracers, other methods or other surveys.</li>
+<li>Simulated catalogues follow the fitted model, so departures from equilibrium and from the mixture assumption are not in the budget.</li>
+<li>Regions of the chart outside the simulated range are extrapolations and are shaded.</li>
+<li>The simulated central value of ρ<sub>0</sub> scatters about the input by roughly one posterior width, so a forecast describes the size of the error bar, not where one particular measurement will land.</li></ul>
 <p>Questions or corrections: <a href="mailto:{EMAIL}">{EMAIL}</a>.</p></div>
-{BASED}'''
-    page("method.html","Method","method.html",method)
+{BASED}"""
+page("method.html","Method","method.html",method)
