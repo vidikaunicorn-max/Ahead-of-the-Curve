@@ -1,5 +1,5 @@
-:root{--bg:#fbfaf7;--ink:#14181f;--mute:#5b6472;--line:#e3e0d8;--card:#ffffff;--accent:#1f3a5f;--accent2:#b4552d;--stat:#1f3a5f;--sys:#b4552d;--tot:#14181f;--ok:#2f6b4f;--warn:#9a6a00}
-@media (prefers-color-scheme:dark){:root{--bg:#0f1218;--ink:#eceae4;--mute:#9aa3b2;--line:#252b36;--card:#161b24;--accent:#8fb0e0;--accent2:#e29a72;--stat:#8fb0e0;--sys:#e29a72;--tot:#eceae4;--ok:#7cc4a0;--warn:#e0b84d}}
+:root{--bg:#fbfaf7;--ink:#14181f;--mute:#5b6472;--line:#e3e0d8;--card:#ffffff;--accent:#1f3a5f;--accent2:#b4552d;--stat:#1f3a5f;--sys:#b4552d;--tot:#14181f;--ok:#2f6b4f;--plx:#6b4a9a;--warn:#9a6a00}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1218;--ink:#eceae4;--mute:#9aa3b2;--line:#252b36;--card:#161b24;--accent:#8fb0e0;--accent2:#e29a72;--stat:#8fb0e0;--sys:#e29a72;--tot:#eceae4;--ok:#7cc4a0;--plx:#b79adf;--warn:#e0b84d}}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 "Source Serif 4",Georgia,serif}
 h1,h2,h3,.sans,nav,label,button,.tag,table{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -57,3 +57,13 @@ code{font:13.5px ui-monospace,Menlo,monospace;background:color-mix(in srgb,var(-
 button.btn{font:600 14px Inter;padding:10px 16px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--bg);cursor:pointer}
 
 @media(max-width:600px){nav a{margin-left:14px;font-size:13px}.brand{white-space:nowrap;font-size:15px}}
+
+.kpis{grid-template-columns:repeat(4,1fr)}@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi.plx .v{color:var(--plx)}.kpi .s{min-height:1.3em}
+.chk{display:flex;gap:8px;align-items:center;font:500 13.5px Inter,sans-serif;margin:4px 0 16px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}.btn.ghost{background:transparent;color:var(--accent)}
+.small{font:13.5px/1.5 Inter,sans-serif;color:var(--mute);margin:0 0 10px}
+.srow{display:grid;grid-template-columns:1fr 90px 46px;gap:10px;align-items:center;font:13.5px Inter,sans-serif;margin:8px 0}
+.sbar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}.sbar i{display:block;height:100%}
+.srow b{text-align:right;font-variant-numeric:tabular-nums}
+.two{margin:0 0 24px}.two>.card{min-width:0}

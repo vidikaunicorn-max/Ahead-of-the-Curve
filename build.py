@@ -18,27 +18,31 @@ BASED='''<div class="based"><strong>Based on a research paper.</strong> This too
 
 index=f'''
 <section class="hero"><div class="eyebrow">Survey-planning tool</div>
-<h1>How many stars do you need to weigh the Galactic disc?</h1>
-<p class="lede">Enter the size and quality of a stellar survey. The forecaster predicts the uncertainty on the local mass density ρ<sub>0</sub> and shows the point beyond which observing more stars stops helping.</p></section>
+<h1>Forecast the precision of a local mass density measurement.</h1>
+<p class="lede">Enter the size and quality of a stellar survey. The forecaster predicts the statistical, completeness and parallax error budget on ρ<sub>0</sub> for the vertical Jeans–Poisson analysis in the paper, and shows where adding stars stops paying off.</p></section>
 <div class="grid">
 <div class="card"><h3>Survey design</h3>
-<div class="field"><label for="n"><span>Stars in sample</span><output id="nO"></output></label><input id="n" type="range" min="2.7" max="5.2" step="any"><small>Tracer stars with 6D or 5D data inside the selection volume.</small></div>
+<div class="field"><label for="n"><span>Stars in sample</span><output id="nO"></output></label><input id="n" type="range" min="2.7" max="5.4" step="any"><small>Tracer stars with astrometry inside the selection volume.</small></div>
 <div class="field"><label for="rv"><span>Fraction with radial velocity</span><output id="rvO"></output></label><input id="rv" type="range" min="0.2" max="1" step="0.01"><small>Missing velocities are marginalised, not discarded.</small></div>
 <div class="field"><label for="plx"><span>Parallax error</span><output id="plxO"></output></label><input id="plx" type="range" min="0.1" max="2.5" step="0.05"><small>Median σ<sub>ϖ</sub> in mas.</small></div>
 <div class="field"><label for="dv"><span>Completeness-limit uncertainty</span><output id="dvO"></output></label><input id="dv" type="range" min="0" max="0.6" step="0.01"><small>1σ error on the survey’s limiting magnitude (mag).</small></div>
 <div class="field"><label for="tgt"><span>Target precision on ρ<sub>0</sub></span><output id="tgtO"></output></label><input id="tgt" type="range" min="0.005" max="0.03" step="0.001"><small>Total 1σ, in M<sub>☉</sub> pc<sup>−3</sup>.</small></div>
-<button class="btn" id="paper">Set to the paper’s survey</button></div>
+<label class="chk"><input type="checkbox" id="corr"> Correct for the expected parallax offset</label>
+<div class="btns"><button class="btn" id="paper">Paper’s survey</button><button class="btn ghost" id="pDouble">2× stars</button><button class="btn ghost" id="pRV">All RVs</button><button class="btn ghost" id="pTight">±0.1 mag</button></div></div>
 <div><div class="verdict" id="eb" style="margin:0 0 14px;font-weight:600"></div><div class="kpis">
 <div class="kpi stat"><div class="l">Statistical</div><div class="v" id="kS"></div><div class="s">M<sub>☉</sub> pc<sup>−3</sup></div></div>
-<div class="kpi sys"><div class="l">Completeness sys.</div><div class="v" id="kY"></div><div class="s">M<sub>☉</sub> pc<sup>−3</sup></div></div>
+<div class="kpi sys"><div class="l">Completeness</div><div class="v" id="kY"></div><div class="s">M<sub>☉</sub> pc<sup>−3</sup></div></div>
+<div class="kpi plx"><div class="l">Parallax offset</div><div class="v" id="kQ"></div><div class="s">M<sub>☉</sub> pc<sup>−3</sup></div></div>
 <div class="kpi"><div class="l">Total</div><div class="v" id="kT"></div><div class="s" id="kTs"></div></div></div>
-<div class="card"><h3>Error budget vs. sample size</h3><svg id="chart" viewBox="0 0 640 340" width="100%" role="img" aria-label="Forecast error on rho0 versus number of stars"></svg>
-<div class="verdict" id="verdict"></div><div id="warn"></div></div></div></div>
+<div class="card"><h3>Error budget vs. sample size</h3><svg id="chart" viewBox="0 0 680 350" width="100%" role="img" aria-label="Forecast error on rho0 versus number of stars"></svg>
+<div class="verdict" id="verdict"></div></div></div></div>
+<div class="two"><div class="card"><h3>What would help most</h3><p class="small">Change in total error for each improvement, from your current design.</p><div id="sens"></div></div>
+<div class="card"><h3>Compare scenarios</h3><p class="small">Add designs to a table, then copy or download it.</p><div class="btns"><button class="btn" id="add">Add current design</button><button class="btn ghost" id="clr">Clear</button><button class="btn ghost" id="dl">Download CSV</button><button class="btn ghost" id="cp">Copy CSV</button></div><div id="scn" hidden style="overflow-x:auto"><table id="tbl"></table></div></div></div>
 {BASED}
 <h2>Why this is useful</h2><div class="two prose">
-<p>Statistical error shrinks as more stars are added, but the systematic error from not knowing exactly where the survey stops being complete does not. The two curves cross at a sample size N*. Beyond N* the limiting factor is calibration, not volume, so a larger observing allocation buys almost nothing.</p>
-<p>Use the tool to size a spectroscopic follow-up, to decide whether to spend time on radial velocities or on photometric calibration, or to teach how error budgets behave in astronomy. See the <a href="method.html">method page</a> for the model, calibration and limits of validity.</p></div>'''
-page("index.html","Precision Forecaster","index.html",index,'<script src="assets/forecast.js"></script>')
+<p>Statistical error shrinks as more stars are added, but the completeness systematic and the parallax offset do not. The two sides cross at a sample size N*. Beyond N* the limiting factor is calibration, not volume, so a larger observing allocation buys little.</p>
+<p>Use the tool to size a follow-up, to decide between radial velocities and photometric calibration, or to teach how error budgets behave. The <a href="method.html">method page</a> describes the simulations, the fitted model and its range.</p></div>'''
+page("index.html","Precision Forecaster","index.html",index,'<script src="assets/calibration2.js"></script><script src="assets/forecast2.js"></script>')
 
 about=f'''
 <section class="hero"><div class="eyebrow">About</div><h1>Making uncertainty visible before the telescope time is spent.</h1></section>
@@ -70,8 +74,6 @@ import json,os
 cal=json.load(open("forecast/calibration.json")) if os.path.exists("forecast/calibration.json") else None
 if cal:
     open("assets/calibration.js","w").write("window.CAL="+json.dumps(cal)+";")
-    for f in ["index.html"]:
-        s=open(f).read().replace('<script src="assets/forecast.js">','<script src="assets/calibration.js"></script><script src="assets/forecast.js">'); open(f,"w").write(s)
     V=cal["validation"]
     method=f'''
 <section class="hero"><div class="eyebrow">Method</div><h1>How the forecast works</h1><p class="lede">A compact, calibrated model of the error budget in the underlying paper. Every number on the forecaster page comes from the relations below.</p></section>
