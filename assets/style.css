@@ -55,3 +55,5 @@ footer .wrap{display:flex;gap:30px;justify-content:space-between;flex-wrap:wrap}
 code{font:13.5px ui-monospace,Menlo,monospace;background:color-mix(in srgb,var(--ink) 7%,transparent);padding:1px 5px;border-radius:4px}
 .eq{font:italic 17px "Source Serif 4",Georgia,serif;text-align:center;padding:12px;overflow-x:auto}
 button.btn{font:600 14px Inter;padding:10px 16px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--bg);cursor:pointer}
+
+@media(max-width:600px){nav a{margin-left:14px;font-size:13px}.brand{white-space:nowrap;font-size:15px}}

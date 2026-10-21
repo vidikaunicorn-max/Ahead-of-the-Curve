@@ -1,0 +1,34 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Method · Ahead of the Curve</title>
+<meta name="description" content="Ahead of the Curve: a precision forecaster for measuring the local dark and baryonic mass density, based on a Hipparcos K-giant Jeans–Poisson analysis.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css"></head><body>
+<header class="top"><div class="wrap"><a class="brand" href="index.html">Ahead of the <span>Curve</span></a><nav><a href="index.html" class="">Forecaster</a><a href="method.html" class="on">Method</a><a href="about.html" class="">About</a><a href="contact.html" class="">Contact</a></nav></div></header>
+<main class="wrap">
+<section class="hero"><div class="eyebrow">Method</div><h1>How the forecast works</h1><p class="lede">A compact, calibrated model of the error budget in the underlying paper. Every number on the forecaster page comes from the relations below.</p></section>
+<div class="prose">
+<h2 style="margin-top:0">1. The analysis being forecast</h2>
+<p>The paper fits the vertical distribution and kinematics of Hipparcos K giants with the Jeans–Poisson equations. Total density follows ρ(z) = ρ<sub>0</sub> sech²(z/z<sub>ρ</sub>), with stellar velocities described by a mixture of two isothermal components. Selection effects are handled with a Poisson point-process likelihood using the Hipparcos completeness law V ≤ 7.3 + 1.1 sin|b|, and missing radial velocities are marginalised exactly. Posteriors are sampled with an ensemble MCMC (emcee).</p>
+<h2>2. Statistical error</h2>
+<p>Mock catalogues were drawn from the best-fitting model, with the paper’s selection function, and refitted with the full pipeline on a grid of sample sizes and radial-velocity fractions. The resulting posterior widths were fitted with</p>
+<div class="eq">σ<sub>stat</sub>(N, f<sub>RV</sub>) = σ<sub>0</sub> (N / 3585)<sup>−α</sup> (f<sub>RV</sub> / 0.59)<sup>−β</sup></div>
+<p>with σ<sub>0</sub> = 0.0160, α = 0.48, β = 0.19. The scaling of α with N is not forced to ½, because the dominant degeneracy (ρ<sub>0</sub> against the scale height) is not purely Poisson.</p>
+<h2>3. Completeness systematic</h2>
+<p>The paper shifted the limiting magnitude by ΔV and refitted. ρ<sub>0</sub> responds roughly linearly, with slope ≈ −0.057 M<sub>☉</sub> pc<sup>−3</sup> per magnitude, which is nearly independent of N. The systematic error is therefore</p>
+<div class="eq">σ<sub>sys</sub> = |dρ<sub>0</sub>/dΔV| · σ<sub>ΔV</sub></div>
+<p>and the total is σ<sub>tot</sub> = √(σ<sub>stat</sub>² + σ<sub>sys</sub>²). Increasing N lowers only the first term, which is why a crossover sample size N* exists.</p>
+<h2>4. Validation</h2>
+<table><tr><th>Quantity</th><th>Paper</th><th>Forecaster</th></tr>
+<tr><td>Statistical, N = 3,585, 59% RV</td><td>0.016</td><td>0.016</td></tr>
+<tr><td>Completeness sys., σ<sub>ΔV</sub> = 0.3 mag</td><td>0.017</td><td>0.017</td></tr></table>
+<p>The forecaster is anchored to the paper’s published errors at its own survey configuration (N = 3,585, 59% with radial velocities, σ<sub>ΔV</sub> = 0.3 mag), so it reproduces ±0.016 and ±0.017 there. As an independent check, the scaling fitted to the mock catalogues alone predicts 0.015 for the statistical error at that configuration, within the fit scatter. Away from that point it extrapolates using scalings fitted to mock catalogues.</p>
+<h2>5. Limits of validity</h2>
+<ul><li>Only the paper’s setup is modelled: K giants, vertical Jeans equilibrium, a two-component mixture, Hipparcos-like completeness.</li>
+<li>Equilibrium is assumed, not tested. Departures from it (e.g. the vertical phase-space spiral) are not in the error budget.</li>
+<li>Parallax errors: mock tests showed no bias at 0.8 mas and about +20% in ρ<sub>0</sub> at 1.5 mas; larger values were not tested. The forecaster warns rather than extrapolating.</li>
+<li>Forecasts are fitted scaling relations with their own scatter (about 11% rms scatter about the fitted relation across 12 mock fits), not new measurements. The tool is novel as a planning aid, not as a new dynamical method.</li></ul>
+<p>Questions or corrections: <a href="mailto:vidika.unicorn@gmail.com">vidika.unicorn@gmail.com</a>.</p></div>
+<div class="based"><strong>Based on a research paper.</strong> This tool implements the error budget of <em>“Local mass density from Hipparcos K giants: a vertical Jeans–Poisson analysis with a mixture of isothermal components”</em> by Vidika Mirpuri, in which ρ<sub>0</sub> = 0.063 ± 0.016 (stat) ± 0.017 (completeness sys.) M<sub>☉</sub> pc<sup>−3</sup> was obtained from 3,585 stars. Forecasts are calibrated on mock catalogues generated and fitted with that paper’s pipeline.</div></main>
+<footer><div class="wrap"><div><strong>Ahead of the Curve</strong><br>A precision forecaster for the local mass density ρ<sub>0</sub>.<br>Based on the research paper by Vidika Mirpuri.</div>
+<div>Contact: <a href="mailto:vidika.unicorn@gmail.com">vidika.unicorn@gmail.com</a><br>© 2026 Vidika Mirpuri. Forecasts are model-based estimates, not measurements.</div></div></footer></body></html>

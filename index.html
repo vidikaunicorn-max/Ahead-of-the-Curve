@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Precision Forecaster · Ahead of the Curve</title>
+<meta name="description" content="Ahead of the Curve: a precision forecaster for measuring the local dark and baryonic mass density, based on a Hipparcos K-giant Jeans–Poisson analysis.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css"></head><body>
+<header class="top"><div class="wrap"><a class="brand" href="index.html">Ahead of the <span>Curve</span></a><nav><a href="index.html" class="on">Forecaster</a><a href="method.html" class="">Method</a><a href="about.html" class="">About</a><a href="contact.html" class="">Contact</a></nav></div></header>
+<main class="wrap">
+<section class="hero"><div class="eyebrow">Survey-planning tool</div>
+<h1>How many stars do you need to weigh the Galactic disc?</h1>
+<p class="lede">Enter the size and quality of a stellar survey. The forecaster predicts the uncertainty on the local mass density ρ<sub>0</sub> and shows the point beyond which observing more stars stops helping.</p></section>
+<div class="grid">
+<div class="card"><h3>Survey design</h3>
+<div class="field"><label for="n"><span>Stars in sample</span><output id="nO"></output></label><input id="n" type="range" min="2.7" max="5.2" step="any"><small>Tracer stars with 6D or 5D data inside the selection volume.</small></div>
+<div class="field"><label for="rv"><span>Fraction with radial velocity</span><output id="rvO"></output></label><input id="rv" type="range" min="0.2" max="1" step="0.01"><small>Missing velocities are marginalised, not discarded.</small></div>
+<div class="field"><label for="plx"><span>Parallax error</span><output id="plxO"></output></label><input id="plx" type="range" min="0.1" max="2.5" step="0.05"><small>Median σ<sub>ϖ</sub> in mas. Tested up to 1.5 mas.</small></div>
+<div class="field"><label for="dv"><span>Completeness-limit uncertainty</span><output id="dvO"></output></label><input id="dv" type="range" min="0" max="0.6" step="0.01"><small>1σ error on the survey’s limiting magnitude (mag).</small></div>
+<div class="field"><label for="tgt"><span>Target precision on ρ<sub>0</sub></span><output id="tgtO"></output></label><input id="tgt" type="range" min="0.005" max="0.03" step="0.001"><small>Total 1σ, in M<sub>☉</sub> pc<sup>−3</sup>.</small></div>
+<button class="btn" id="paper">Set to the paper’s survey</button></div>
+<div><div class="kpis">
+<div class="kpi stat"><div class="l">Statistical</div><div class="v" id="kS"></div><div class="s">M<sub>☉</sub> pc<sup>−3</sup></div></div>
+<div class="kpi sys"><div class="l">Completeness sys.</div><div class="v" id="kY"></div><div class="s">M<sub>☉</sub> pc<sup>−3</sup></div></div>
+<div class="kpi"><div class="l">Total</div><div class="v" id="kT"></div><div class="s" id="kTs"></div></div></div>
+<div class="card"><h3>Error budget vs. sample size</h3><svg id="chart" viewBox="0 0 640 340" width="100%" role="img" aria-label="Forecast error on rho0 versus number of stars"></svg>
+<div class="verdict" id="verdict"></div><div id="warn"></div></div></div></div>
+<div class="based"><strong>Based on a research paper.</strong> This tool implements the error budget of <em>“Local mass density from Hipparcos K giants: a vertical Jeans–Poisson analysis with a mixture of isothermal components”</em> by Vidika Mirpuri, in which ρ<sub>0</sub> = 0.063 ± 0.016 (stat) ± 0.017 (completeness sys.) M<sub>☉</sub> pc<sup>−3</sup> was obtained from 3,585 stars. Forecasts are calibrated on mock catalogues generated and fitted with that paper’s pipeline.</div>
+<h2>Why this is useful</h2><div class="two prose">
+<p>Statistical error shrinks as more stars are added, but the systematic error from not knowing exactly where the survey stops being complete does not. The two curves cross at a sample size N*. Beyond N* the limiting factor is calibration, not volume, so a larger observing allocation buys almost nothing.</p>
+<p>Use the tool to size a spectroscopic follow-up, to decide whether to spend time on radial velocities or on photometric calibration, or to teach how error budgets behave in astronomy. See the <a href="method.html">method page</a> for the model, calibration and limits of validity.</p></div></main>
+<footer><div class="wrap"><div><strong>Ahead of the Curve</strong><br>A precision forecaster for the local mass density ρ<sub>0</sub>.<br>Based on the research paper by Vidika Mirpuri.</div>
+<div>Contact: <a href="mailto:vidika.unicorn@gmail.com">vidika.unicorn@gmail.com</a><br>© 2026 Vidika Mirpuri. Forecasts are model-based estimates, not measurements.</div></div></footer><script src="assets/calibration.js"></script><script src="assets/forecast.js"></script></body></html>

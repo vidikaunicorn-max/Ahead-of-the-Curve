@@ -11,6 +11,6 @@ resid=np.log(s)-A@c
 cal=dict(N0=3585,rv0=0.59,s0=0.016,alpha=alpha,beta=beta,slope=0.017/0.3,rho0=0.063,plxTested=1.5,
  plxBias=[[0.8,0.0],[1.5,0.20]],
  validation=dict(stat=0.016,sys=0.017),
- validation_note="The forecaster is anchored to the paper’s published errors at its own survey configuration (N = 3,585, 59% with radial velocities, σ<sub>ΔV</sub> = 0.3 mag), so it reproduces ±0.016 and ±0.017 there. Away from that point it extrapolates using scalings fitted to mock catalogues.",
+ validation_note="The forecaster is anchored to the paper’s published errors at its own survey configuration (N = 3,585, 59% with radial velocities, σ<sub>ΔV</sub> = 0.3 mag), so it reproduces ±0.016 and ±0.017 there. As an independent check, the scaling fitted to the mock catalogues alone predicts 0.015 for the statistical error at that configuration, within the fit scatter. Away from that point it extrapolates using scalings fitted to mock catalogues.",
  scatter_note="about %d%% rms scatter about the fitted relation across %d mock fits"%(round(100*float(np.std(resid))),len(s)))
 json.dump(cal,open('forecast/calibration.json','w'),indent=1); print(cal,'free-fit s0',fit_s0)

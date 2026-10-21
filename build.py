@@ -22,11 +22,11 @@ index=f'''
 <p class="lede">Enter the size and quality of a stellar survey. The forecaster predicts the uncertainty on the local mass density ρ<sub>0</sub> and shows the point beyond which observing more stars stops helping.</p></section>
 <div class="grid">
 <div class="card"><h3>Survey design</h3>
-<div class="field"><label for="n">Stars in sample <output id="nO"></output></label><input id="n" type="range" min="2.7" max="5.2" step="0.01"><small>Tracer stars with 6D or 5D data inside the selection volume.</small></div>
-<div class="field"><label for="rv">Fraction with radial velocity <output id="rvO"></output></label><input id="rv" type="range" min="0.2" max="1" step="0.01"><small>Missing velocities are marginalised, not discarded.</small></div>
-<div class="field"><label for="plx">Parallax error <output id="plxO"></output></label><input id="plx" type="range" min="0.1" max="2.5" step="0.05"><small>Median σ<sub>ϖ</sub> in mas. Tested up to 1.5 mas.</small></div>
-<div class="field"><label for="dv">Completeness-limit uncertainty <output id="dvO"></output></label><input id="dv" type="range" min="0" max="0.6" step="0.01"><small>1σ error on the survey’s limiting magnitude (mag).</small></div>
-<div class="field"><label for="tgt">Target precision on ρ<sub>0</sub> <output id="tgtO"></output></label><input id="tgt" type="range" min="0.005" max="0.03" step="0.001"><small>Total 1σ, in M<sub>☉</sub> pc<sup>−3</sup>.</small></div>
+<div class="field"><label for="n"><span>Stars in sample</span><output id="nO"></output></label><input id="n" type="range" min="2.7" max="5.2" step="any"><small>Tracer stars with 6D or 5D data inside the selection volume.</small></div>
+<div class="field"><label for="rv"><span>Fraction with radial velocity</span><output id="rvO"></output></label><input id="rv" type="range" min="0.2" max="1" step="0.01"><small>Missing velocities are marginalised, not discarded.</small></div>
+<div class="field"><label for="plx"><span>Parallax error</span><output id="plxO"></output></label><input id="plx" type="range" min="0.1" max="2.5" step="0.05"><small>Median σ<sub>ϖ</sub> in mas. Tested up to 1.5 mas.</small></div>
+<div class="field"><label for="dv"><span>Completeness-limit uncertainty</span><output id="dvO"></output></label><input id="dv" type="range" min="0" max="0.6" step="0.01"><small>1σ error on the survey’s limiting magnitude (mag).</small></div>
+<div class="field"><label for="tgt"><span>Target precision on ρ<sub>0</sub></span><output id="tgtO"></output></label><input id="tgt" type="range" min="0.005" max="0.03" step="0.001"><small>Total 1σ, in M<sub>☉</sub> pc<sup>−3</sup>.</small></div>
 <button class="btn" id="paper">Set to the paper’s survey</button></div>
 <div><div class="kpis">
 <div class="kpi stat"><div class="l">Statistical</div><div class="v" id="kS"></div><div class="s">M<sub>☉</sub> pc<sup>−3</sup></div></div>
@@ -43,7 +43,7 @@ page("index.html","Precision Forecaster","index.html",index,'<script src="assets
 about=f'''
 <section class="hero"><div class="eyebrow">About</div><h1>Making uncertainty visible before the telescope time is spent.</h1></section>
 <div class="prose"><h2 style="margin-top:0">Purpose of this site</h2>
-<p>Measuring the local mass density ρ<sub>0</sub> is a central problem in Galactic dynamics. It sets how much unseen matter sits in the disc, and the answer depends as much on survey design and calibration as on the number of stars observed. <strong>Ahead of the Curve</strong> turns the error budget of one published-style analysis into an interactive forecaster, so students and researchers can see how sample size, radial-velocity coverage, parallax quality and completeness-limit uncertainty combine into a final error bar.</p>
+<p>Measuring the local mass density ρ<sub>0</sub> is a central problem in Galactic dynamics. It sets how much unseen matter sits in the disc, and the answer depends as much on survey design and calibration as on the number of stars observed. <strong>Ahead of the Curve</strong> turns the error budget of one specific published analysis into an interactive forecaster, so students and researchers can see how sample size, radial-velocity coverage, parallax quality and completeness-limit uncertainty combine into a final error bar.</p>
 <p>It is intended for planning and teaching. It is a calibrated model of one specific analysis, not a replacement for running the full pipeline.</p></div>
 {BASED}
 <h2>Founder</h2><div class="founder"><div class="mono" aria-hidden="true">VM</div><div class="prose">
