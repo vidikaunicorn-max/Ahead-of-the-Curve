@@ -21,8 +21,7 @@ function draw(){
  v+= nt===null?` The target of ${f3(tg)} cannot be reached at this completeness uncertainty (floor ${f3(Y)}).`:` To reach ${f3(tg)} you need about <b>${fmt(nt)}</b> stars.`;
  $("verdict").innerHTML=v;
  const b=plxBias(plx);let w="";
- if(b===null)w=`<div class="note warn">Parallax errors above ${C.plxTested} mas are outside the range tested on mock catalogues; the forecast ignores any bias and should not be trusted there.</div>`;
- else if(b>0.01)w=`<div class="note warn">At σ<sub>ϖ</sub> = ${plx.toFixed(2)} mas, mock tests show ρ₀ is biased high by roughly ${Math.round(b*100)}%. The error bars above do not include this bias.</div>`;
+ if(b!==null&&b>0.01)w=`<div class="note warn">At σ<sub>ϖ</sub> = ${plx.toFixed(2)} mas, mock tests show ρ₀ is biased high by roughly ${Math.round(b*100)}%. The error bars above do not include this bias.</div>`;
  $("warn").innerHTML=w;
  // chart
  const W=640,H=340,L=56,R=16,Tp=16,B=44,xmin=2.7,xmax=5.2,ymax=Math.max(0.06,sStat(Math.pow(10,xmin),rv)*1.05);
