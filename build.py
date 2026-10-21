@@ -28,7 +28,7 @@ index=f'''
 <div class="field"><label for="dv"><span>Completeness-limit uncertainty</span><output id="dvO"></output></label><input id="dv" type="range" min="0" max="0.6" step="0.01"><small>1σ error on the survey’s limiting magnitude (mag).</small></div>
 <div class="field"><label for="tgt"><span>Target precision on ρ<sub>0</sub></span><output id="tgtO"></output></label><input id="tgt" type="range" min="0.005" max="0.03" step="0.001"><small>Total 1σ, in M<sub>☉</sub> pc<sup>−3</sup>.</small></div>
 <button class="btn" id="paper">Set to the paper’s survey</button></div>
-<div><div class="kpis">
+<div><div class="verdict" id="eb" style="margin:0 0 14px;font-weight:600"></div><div class="kpis">
 <div class="kpi stat"><div class="l">Statistical</div><div class="v" id="kS"></div><div class="s">M<sub>☉</sub> pc<sup>−3</sup></div></div>
 <div class="kpi sys"><div class="l">Completeness sys.</div><div class="v" id="kY"></div><div class="s">M<sub>☉</sub> pc<sup>−3</sup></div></div>
 <div class="kpi"><div class="l">Total</div><div class="v" id="kT"></div><div class="s" id="kTs"></div></div></div>

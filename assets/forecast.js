@@ -14,7 +14,7 @@ function draw(){
  $("nO").textContent=fmt(N);$("rvO").textContent=Math.round(rv*100)+"%";$("plxO").textContent=plx.toFixed(2)+" mas";$("dvO").textContent="±"+dv.toFixed(2)+" mag";$("tgtO").textContent=tg.toFixed(3);
  const S=sStat(N,rv),Y=sSys(dv),T=Math.hypot(S,Y);
  $("kS").textContent=f3(S);$("kY").textContent=f3(Y);$("kT").textContent=f3(T);
- $("kTs").textContent="relative to ρ₀ = 0.063: "+Math.round(T/C.rho0*100)+"%";
+ $("eb").innerHTML=`Forecast: ρ<sub>0</sub> = ${C.rho0.toFixed(3)} ± ${f3(S)} (stat) ± ${f3(Y)} (sys)`;$("kTs").textContent="relative to ρ₀ = 0.063: "+Math.round(T/C.rho0*100)+"%";
  const ns=nStar(rv,dv),nt=nFor(tg,rv,dv);
  let v=`Statistical and systematic errors are equal at <b>N* ≈ ${fmt(ns)}</b> stars. `;
  v+= N<ns?`You are statistics-limited: more stars still help.`:`You are calibration-limited: more stars give diminishing returns; tighten the completeness limit instead.`;
