@@ -94,7 +94,7 @@ if cal:
 <h2>5. Limits of validity</h2>
 <ul><li>Only the paper’s setup is modelled: K giants, vertical Jeans equilibrium, a two-component mixture, Hipparcos-like completeness.</li>
 <li>Equilibrium is assumed, not tested. Departures from it (e.g. the vertical phase-space spiral) are not in the error budget.</li>
-<li>Parallax errors: mock tests showed no bias at 0.8 mas and about +20% in ρ<sub>0</sub> at 1.5 mas; larger values were not tested. The forecaster warns rather than extrapolating.</li>
+<li>Parallax errors: mock tests showed no bias at 0.8 mas and about +20% in ρ<sub>0</sub> at 1.5 mas; larger values were not tested.</li>
 <li>Forecasts are fitted scaling relations with their own scatter ({cal["scatter_note"]}), not new measurements. The tool is novel as a planning aid, not as a new dynamical method.</li></ul>
 <p>Questions or corrections: <a href="mailto:{EMAIL}">{EMAIL}</a>.</p></div>
 {BASED}'''
